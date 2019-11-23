@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block sidebar %}
+{% spaceless %}
+
+{% endspaceless%}
+{% endblock %}
+
+{% block content %}
+{% spaceless %}
+<div class="page-header">
+    <div class="media">
+        <div class="media-body">
+            <h2 class="media-heading">Overwatch Base</h2>observe items that recently changed or were added ...
+        </div>
+    </div>
+</div>
+{% if messages %}{% for message in messages %}<div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>{% endfor %}{% endif %}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Recent Tasks</h3>
+    </div>
+    <div class="panel-body">
+        <div role="tabpanel">
+        <table id="uri_table" class="table table-condensed table-striped table-bordered" style="font-size: 0.9em;">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Host</th>
+                    <th>Type</th>
+                    <th>Status</th>
+            </thead>
+            <tbody>
+                {% for scan in scans %}
+                <tr>
+                    <td>{{ scan.scan_time }}</td>
+                    <td>{{ scan.scan_client.hostname }}</td>
+                    <td>{{ scan.scan_type }}</td>
+                    <td>{{ scan.scan_status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+{% endspaceless%}
+{% endblock%}
+
+{% block javascript %}
+
+{% endblock%}
