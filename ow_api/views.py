@@ -10,6 +10,7 @@ import os
 import paramiko
 import datetime
 import json
+import base64
 
 # Token decorator
 def is_allowed(func):
@@ -27,7 +28,7 @@ def is_allowed(func):
 
 @is_allowed
 def get_dummy(request, token):
-    resp = {'msg': 'Successfully connected'}
+    resp = {'msg': 'Successfully connected', 'cmd': 'Dummy', 'data': ''}
     return JsonResponse(resp)
 
 @is_allowed
@@ -49,23 +50,27 @@ def get_profile(request, token):
 def get_rkhunter(request, token):
     """ get rkhunter execution and parsing app
     """
+    # get hunter python script
     rkhunter_file = os.path.join(settings.BASE_DIR, 'ow_downloads', 'rkhunter_parse.py')
-    fp = open(rkhunter_file, 'r')
-    content = fp.read()
+    fp = open(rkhunter_file, 'rb')
+    content = base64.b64encode(fp.read())
     fp.close()
-    resp = StreamingHttpResponse(streaming_content=content)
-    return resp
+    # TODO: create scan job
+    resp = {'msg': 'Successfully connected', 'cmd': 'run', 'data': content.decode('utf8')}
+    return JsonResponse(resp)
 
 @is_allowed
 def get_rkhunter_app(request, token):
     """ get recent rkhunter software directly from server
     """
+    # get hunter install file
     rkhunter_file = os.path.join(settings.BASE_DIR, 'ow_downloads', 'rkhunter-1.4.6.tar.gz')
     fp = open(rkhunter_file, 'rb')
-    content = fp.read()
+    content = base64.b64encode(fp.read())
     fp.close()
-    resp = StreamingHttpResponse(streaming_content=content)
-    return resp
+    # TODO: create job
+    resp = {'msg': 'Successfully connected', 'cmd': 'install', 'data': content.decode('utf8')}
+    return JsonResponse(resp)
 
 
 # Submission Functions
