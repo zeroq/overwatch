@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block sidebar %}
+{% spaceless %}
+
+{% endspaceless%}
+{% endblock %}
+
+{% block content %}
+{% spaceless %}
+<div class="page-header">
+    <div class="media">
+        <div class="media-body">
+            <h2 class="media-heading">Create Overwatch Client</h2>create a new client to watch over ...
+        </div>
+    </div>
+</div>
+{% if messages %}{% for message in messages %}<div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>{% endfor %}{% endif %}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Create Client</h3>
+    </div>
+    <div class="panel-body">
+        <div role="tabpanel">
+            <form method="post">
+                {% csrf_token %}
+                <table class="table table-condensed table-borderless">
+                    <tbody>
+                        <tr><td colspan="2"><div class="form-group"><label for="hostname">{{ form.hostname.label_tag }}</label>{{ form.hostname }}</div></td></tr>
+                        <tr><td colspan="2"><div class="form-group"><label for="ssh_ip">{{ form.ssh_ip.label_tag }}</label>{{ form.ssh_ip }}</div></td></tr>
+                        <tr><td colspan="2"><div class="form-group"><label for="ssh_keyfile_path">{{ form.ssh_keyfile_path.label_tag }}</label>{{ form.ssh_keyfile_path }}</div></td></tr>
+                        <tr><td colspan="2"><div class="form-group"><label for="ssh_user">{{ form.ssh_user.label_tag }}</label>{{ form.ssh_user }}</div></td></tr>
+                        <tr><td colspan="2"><div class="form-group"><label for="ssh_pw">{{ form.ssh_pw.label_tag }}</label>{{ form.ssh_pw }}</div></td></tr>
+                        <tr><td colspan="2"><button type="submit" class="btn btn-primary">Create Client</button></td></tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+{% endspaceless%}
+{% endblock%}
+
+{% block javascript %}
+
+{% endblock%}

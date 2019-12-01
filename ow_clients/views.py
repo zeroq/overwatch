@@ -1,10 +1,13 @@
 # vim: tabstop=4 expandtab shiftwidth=4 softtabstop=4
 
-from django.http import JsonResponse, StreamingHttpResponse
+from django.http import JsonResponse, StreamingHttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.conf import settings
+from django.contrib import messages
 
 from ow_clients.models import Client
+from ow_clients.forms import ClientForm
 from ow_server.models import Server
 
 import os
@@ -17,6 +20,24 @@ import re
 def index(request):
     context = {'clients': Client.objects.all()}
     return render(request, 'ow_clients/list.html', context)
+
+def create_client(request):
+    """ create a new client item
+    """
+    context = {}
+    if request.method == 'POST':
+        form = ClientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.info(request, 'New client created!')
+            return HttpResponseRedirect(reverse('owclients:index'))
+        for item in form.errors.as_data():
+            messages.error(request, 'Client data not valid! %s: %s' % (item, form.errors[item].as_text()))
+        return HttpResponseRedirect(reverse('owclients:index'))
+    else:
+        form = ClientForm()
+        context['form'] = form
+        return render(request, 'ow_clients/create.html', context)
 
 def get_rkhunter(request, hostname):
     """ get recent rkhunter software directly from server

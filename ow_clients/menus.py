@@ -8,7 +8,7 @@ incident_children = (
             reverse("owclients:index"),
             weight=10),
     MenuItem("Add Client",
-            reverse("owclients:index"),
+            reverse("owclients:create_client"),
             weight=80),
 )
 

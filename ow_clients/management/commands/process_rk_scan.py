@@ -16,6 +16,7 @@ class Command(BaseCommand):
             except Exception as e:
                 print(e)
                 continue
+            print(jrsp.keys())
             if 'check of known rootkit files and directories' in jrsp:
                 for rk in jrsp['check of known rootkit files and directories']:
                     value = jrsp['check of known rootkit files and directories'][rk]
@@ -29,5 +30,8 @@ class Command(BaseCommand):
                         'value': value,
                         'hit': result
                     }
-                    item = ScanItem(**scan_item)
-                    item.save()
+                    item, created = ScanItem.objects.get_or_create(**scan_item)
+            if 'group and account checks' in jrsp:
+                for rk in jrsp['group and account checks']:
+                    value = jrsp['group and account checks'][rk]
+                    print(rk, value)
