@@ -36,7 +36,13 @@
                     <td>{{ scan.scan_time }}</td>
                     <td>{{ scan.scan_client.hostname }}</td>
                     <td>{{ scan.scan_type }}</td>
-                    <td>{{ scan.scan_status }}</td>
+                    <td>
+                        {% if scan.scan_status == 'finished' %}
+                            <a href="{% url 'owclients:view_scan_results' hostname=scan.scan_client.hostname scanid=scan.id %}">{{ scan.scan_status }}</a>
+                        {% else %}
+                            {{ scan.scan_status }}
+                        {% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.contrib import messages
 
-from ow_clients.models import Client
+from ow_clients.models import Client, Scan
 from ow_clients.forms import ClientForm
 from ow_server.models import Server
 
@@ -49,6 +49,26 @@ def delete_client(request, hostname):
         messages.error(request, 'Client data not valid! %s' % (e))
         return HttpResponseRedirect(reverse('owclients:index'))
     return HttpResponseRedirect(reverse('owclients:index'))
+
+def view_scan_results(request, hostname, scanid):
+    """ show scan results
+    """
+    context = {}
+    try:
+        cl = Client.objects.get(hostname=hostname)
+    except Exception as e:
+        messages.error(request, 'Client data not valid! %s' % (e))
+        return HttpResponseRedirect(reverse('owclients:index'))
+    context['client'] = cl
+    try:
+        sc = Scan.objects.get(id=scanid)
+    except Exception as e:
+        messages.error(request, 'Scan data not valid! %s' % (e))
+        return HttpResponseRedirect(reverse('owclients:index'))
+    context['scan'] = sc
+    context['scan_results'] = sc.scanitem_set.all()
+    context['scan_hits'] = sc.scanitem_set.filter(hit=True).count()
+    return render(request, 'ow_clients/scan_results.html', context)
 
 def get_rkhunter(request, hostname):
     """ get recent rkhunter software directly from server

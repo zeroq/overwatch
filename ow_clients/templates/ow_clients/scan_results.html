@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block sidebar %}
+{% spaceless %}
+
+{% endspaceless%}
+{% endblock %}
+
+{% block content %}
+{% spaceless %}
+<div class="page-header">
+    <div class="media">
+        <div class="media-body">
+            <h2 class="media-heading">Overwatch Scan Results</h2>list of scan results ...
+        </div>
+    </div>
+</div>
+{% if messages %}{% for message in messages %}<div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>{% endfor %}{% endif %}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Scan Parameters</h3>
+    </div>
+    <div class="panel-body">
+        <div role="tabpanel">
+            <table id="uri_table" class="table table-condensed table-striped table-bordered" style="font-size: 0.9em;">
+                 <tbody>
+                     <tr><td><b>Scan Time</b></td><td>{{ scan.scan_time }}</td></tr>
+                     <tr><td><b>Scan Client</b></td><td>{{ scan.scan_client.hostname }}</td></tr>
+                     <tr><td><b>Scan Type</b></td><td>{{ scan.scan_type }}</td></tr>
+                     <tr><td><b>Scan Status</b></td><td>{{ scan.scan_status }}</td></tr>
+                     <tr><td><b>Scan Result</b></td><td>{{ scan_hits }} Hits</td></tr>
+                 </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Scan Results</h3>
+    </div>
+    <div class="panel-body">
+        <div role="tabpanel">
+        <table id="uri_table" class="table table-condensed table-striped table-bordered" style="font-size: 0.9em;">
+            <thead>
+                <tr>
+                    <th>Rootkit</th>
+                    <th>Scan Result</th>
+            </thead>
+            <tbody>
+                {% for item in scan_results %}
+                <tr>
+                    <td>{{ item.key }}</td>
+                    <td>{{ item.value }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+{% endspaceless%}
+{% endblock%}
+
+{% block javascript %}
+
+{% endblock%}
