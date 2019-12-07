@@ -11,6 +11,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         scans = Scan.objects.filter(scan_status='processing')
         for scan in scans:
+            found = False
             try:
                 jrsp = json.loads(scan.scan_result_raw)
             except Exception as e:
@@ -22,6 +23,7 @@ class Command(BaseCommand):
                     value = jrsp['check of known rootkit files and directories'][rk]
                     if value != 'Not found':
                         result = True
+                        found = True
                     else:
                         result = False
                     scan_item = {
@@ -35,3 +37,10 @@ class Command(BaseCommand):
                 for rk in jrsp['group and account checks']:
                     value = jrsp['group and account checks'][rk]
                     print(rk, value)
+            scan.scan_status = 'finished'
+            if found:
+                scan.scan_client.last_status = 'Issues Detected'
+            else:
+                scan.scan_client.last_status = 'Clean'
+            scan.scan_client.save()
+            scan.save()

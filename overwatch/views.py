@@ -35,5 +35,5 @@ class ClientViewSet(viewsets.ModelViewSet):
     serializer_class = ClientSerializer
 
 def home(request):
-    context = {'scans': Scan.objects.all().order_by('scan_time')[:15]}
+    context = {'scans': Scan.objects.all().order_by('-scan_time')[:15]}
     return render(request, 'overwatch/index.html', context)

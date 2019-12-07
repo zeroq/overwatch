@@ -35,10 +35,10 @@ class Scan(models.Model):
     scan_status = models.CharField(max_length=20, default='processing', db_index=True)
 
     def __str__(self):
-        return "%s (%s)" % (self.scan_type, self.scan_client.hostname)
+        return "%s (%s) (%s)" % (self.scan_type, self.scan_client.hostname, self.scan_time)
 
     def __unicode__(self):
-        return u"%s (%s)" % (self.scan_type, self.scan_client.hostname)
+        return u"%s (%s) (%s)" % (self.scan_type, self.scan_client.hostname, self.scan_time)
 
 class Group(models.Model):
     groupname = models.CharField(max_length=1024, primary_key=True)
@@ -58,6 +58,7 @@ class Client(models.Model):
     profiles = models.ManyToManyField(Profile)
     groups = models.ManyToManyField(Group)
     debug = models.BooleanField(default=False)
+    last_status = models.CharField(max_length=128, default='Not Checked')
 
     def __str__(self):
         return "%s" % (self.hostname)
