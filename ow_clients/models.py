@@ -40,6 +40,11 @@ class Scan(models.Model):
     def __unicode__(self):
         return u"%s (%s)" % (self.scan_type, self.scan_client.hostname)
 
+class Group(models.Model):
+    groupname = models.CharField(max_length=1024, primary_key=True)
+    description = models.TextField()
+    groupprofile = models.ManyToManyField(Profile)
+
 class Client(models.Model):
     hostname = models.CharField(max_length=1024, primary_key=True)
     ssh_ip = models.CharField(max_length=15, unique=True)
@@ -51,6 +56,7 @@ class Client(models.Model):
     token = models.CharField(max_length=128)
     alive_time = models.DateTimeField(blank=True, null=True)
     profiles = models.ManyToManyField(Profile)
+    groups = models.ManyToManyField(Group)
     debug = models.BooleanField(default=False)
 
     def __str__(self):
