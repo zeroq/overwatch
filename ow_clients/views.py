@@ -39,6 +39,17 @@ def create_client(request):
         context['form'] = form
         return render(request, 'ow_clients/create.html', context)
 
+def delete_client(request, hostname):
+    """ delete client
+    """
+    try:
+        cl = Client.objects.get(hostname=hostname)
+        cl.delete()
+    except Exception as e:
+        messages.error(request, 'Client data not valid! %s' % (e))
+        return HttpResponseRedirect(reverse('owclients:index'))
+    return HttpResponseRedirect(reverse('owclients:index'))
+
 def get_rkhunter(request, hostname):
     """ get recent rkhunter software directly from server
     """

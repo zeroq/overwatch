@@ -47,6 +47,9 @@
                             <a class="btn btn-small" rel="tooltip" data-placement="left" data-original-title="Scan" href="#">
                                 <i class="fa fa-undo"></i>
                             </a>
+                            <a class="btn btn-small" rel="tooltip" data-placement="left" data-original-title="Delete" href="{% url 'owclients:delete_client' hostname=client.hostname %}">
+                                <i class="fa fa-remove"></i>
+                            </a>
                         </div>
                     </td>
                 </tr>
