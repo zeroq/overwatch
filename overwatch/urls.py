@@ -23,6 +23,7 @@ app_name = 'overwatch'
 urlpatterns = [
     path('', views.home, name='home'),
     path('client/', include('ow_clients.urls', namespace='owclients')),
+    path('server/', include('ow_server.urls', namespace='owservers')),
     path('api/1.0/', include('ow_api.urls', namespace='owapi')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('admin/', admin.site.urls),

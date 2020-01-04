@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block sidebar %}
+{% spaceless %}
+
+{% endspaceless%}
+{% endblock %}
+
+{% block content %}
+{% spaceless %}
+<div class="page-header">
+    <div class="media">
+        <div class="media-body">
+            <h2 class="media-heading">Edit Overwatch Server</h2>modify server settings ...
+        </div>
+    </div>
+</div>
+{% if messages %}{% for message in messages %}<div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>{% endfor %}{% endif %}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Edit Server</h3>
+    </div>
+    <div class="panel-body">
+        <div role="tabpanel">
+            <form method="post">
+                {% csrf_token %}
+                <table class="table table-condensed table-borderless">
+                    <tbody>
+                        <tr><td colspan="2"><div class="form-group"><label for="server_ip">{{ form.server_ip.label_tag }}</label>{{ form.server_ip }}</div></td></tr>
+                        <tr><td colspan="2"><div class="form-group"><label for="server_port">{{ form.server_port.label_tag }}</label>{{ form.server_port }}</div></td></tr>
+                        <tr><input type="hidden" name="server_id" value="{{ sid }}"><td colspan="2"><button type="submit" class="btn btn-primary">Edit Server</button></td></tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+{% endspaceless%}
+{% endblock%}
+
+{% block javascript %}
+
+{% endblock%}

@@ -3,7 +3,7 @@
 from django.urls import reverse
 from menu import Menu, MenuItem
 
-incident_children = (
+client_children = (
     MenuItem("List Clients",
             reverse("owclients:index"),
             weight=10),
@@ -15,5 +15,5 @@ incident_children = (
 Menu.add_item("clients", MenuItem(" Clients",
     reverse("owclients:index"),
     weight=10,
-    children=incident_children)
+    children=client_children)
 )

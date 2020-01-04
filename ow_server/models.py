@@ -7,3 +7,4 @@ from django.db import models
 class Server(models.Model):
     server_ip = models.CharField(max_length=15, unique=True)
     server_port = models.IntegerField(default=8000)
+    last_modified = models.DateTimeField(auto_now=True)

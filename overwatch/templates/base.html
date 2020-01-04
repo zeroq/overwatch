@@ -34,8 +34,8 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse navbar-left">
             {% with menu=menus.main %}{% include "menu_main.html" %}{% endwith %}
+            {% with menu=menus.servers %}{% include "menu_main.html" %}{% endwith %}
             {% with menu=menus.clients %}{% include "menu_main.html" %}{% endwith %}
-            {% with menu=menus.intel %}{% include "menu_main.html" %}{% endwith %}
         </div><!--/.nav-collapse -->
         <div class="collapse navbar-collapse navbar-right">
             {% with menu=menus.sharing %}{% include "menu_main.html" %}{% endwith %}
