@@ -7,19 +7,43 @@ from django.conf import settings
 from django.contrib import messages
 
 from ow_clients.models import Client, Scan
-from ow_clients.forms import ClientForm
+from ow_clients.forms import ClientForm, EditClientForm
 from ow_server.models import Server
 
 import os
 import paramiko
 import io
 import re
+import hashlib
+import time
 
 # Create your views here.
 
 def index(request):
     context = {'clients': Client.objects.all()}
     return render(request, 'ow_clients/list.html', context)
+
+def edit_client(request, hostname):
+    """ edit an existing client item
+    """
+    try:
+        cl = Client.objects.get(hostname=hostname)
+    except Exception as e:
+        messages.error(request, 'Client data not valid! %s' % (e))
+        return HttpResponseRedirect(reverse('owclients:index'))
+    context = {}
+    if request.method == 'POST':
+        form = EditClientForm(request.POST, instance=cl)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('owclients:index'))
+        for item in form.errors.as_data():
+            messages.error(request, 'Client data not valid! %s: %s' % (item, form.errors[item].as_text()))
+        return HttpResponseRedirect(reverse('owclients:index'))
+    else:
+        form = EditClientForm(instance=cl)
+        context['form'] = form
+        return render(request, 'ow_clients/edit.html', context)
 
 def create_client(request):
     """ create a new client item
@@ -28,7 +52,10 @@ def create_client(request):
     if request.method == 'POST':
         form = ClientForm(request.POST)
         if form.is_valid():
-            form.save()
+            token = hashlib.sha256(str(time.time()).encode('utf8')).hexdigest()
+            obj = form.save(commit=False)
+            obj.token = token
+            obj.save()
             messages.info(request, 'New client created!')
             return HttpResponseRedirect(reverse('owclients:index'))
         for item in form.errors.as_data():

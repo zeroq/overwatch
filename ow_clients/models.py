@@ -46,8 +46,8 @@ class Group(models.Model):
     groupprofile = models.ManyToManyField(Profile)
 
 class Client(models.Model):
-    hostname = models.CharField(max_length=1024, primary_key=True)
-    ssh_ip = models.CharField(max_length=15, unique=True)
+    hostname = models.CharField(max_length=1024)
+    ssh_ip = models.CharField(max_length=15)
     ssh_keyfile_path = models.CharField(max_length=1024)
     ssh_user = models.CharField(max_length=128, db_index=True)
     ssh_pw = models.CharField(max_length=255, blank=True)
@@ -55,10 +55,13 @@ class Client(models.Model):
     last_modified = models.DateTimeField(auto_now=True)
     token = models.CharField(max_length=128)
     alive_time = models.DateTimeField(blank=True, null=True)
-    profiles = models.ManyToManyField(Profile)
+    profiles = models.ManyToManyField(Profile, blank=True)
     groups = models.ManyToManyField(Group, blank=True)
     debug = models.BooleanField(default=False)
     last_status = models.CharField(max_length=128, default='Not Checked')
+
+    class Meta:
+        unique_together = ('hostname', 'ssh_ip',)
 
     def __str__(self):
         return "%s" % (self.hostname)

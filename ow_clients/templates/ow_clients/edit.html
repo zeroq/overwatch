@@ -11,14 +11,14 @@
 <div class="page-header">
     <div class="media">
         <div class="media-body">
-            <h2 class="media-heading">Create Overwatch Client</h2>create a new client to watch over ...
+            <h2 class="media-heading">Edit Overwatch Client</h2>modify client to watch over ...
         </div>
     </div>
 </div>
 {% if messages %}{% for message in messages %}<div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>{% endfor %}{% endif %}
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h3 class="panel-title">Create Client</h3>
+        <h3 class="panel-title">Edit Client</h3>
     </div>
     <div class="panel-body">
         <div role="tabpanel">
@@ -31,10 +31,11 @@
                         <tr><td colspan="2"><div class="form-group"><label for="ssh_keyfile_path">{{ form.ssh_keyfile_path.label_tag }}</label>{{ form.ssh_keyfile_path }}</div></td></tr>
                         <tr><td colspan="2"><div class="form-group"><label for="ssh_user">{{ form.ssh_user.label_tag }}</label>{{ form.ssh_user }}</div></td></tr>
                         <tr><td colspan="2"><div class="form-group"><label for="ssh_pw">{{ form.ssh_pw.label_tag }}</label>{{ form.ssh_pw }}</div></td></tr>
+                        <tr><td colspan="2"><div class="form-group"><label for="ssh_pw">{{ form.token.label_tag }}</label>{{ form.token }}</div></td></tr>
                         <tr><td colspan="2"><div class="form-group"><label for="ssh_pw">{{ form.profiles.label_tag }}</label>{{ form.profiles }}</div></td></tr>
                         <tr><td colspan="2"><div class="form-group"><label for="ssh_pw">{{ form.groups.label_tag }}</label>{{ form.groups }}</div></td></tr>
                         <tr><td colspan="2"><div class="form-group"><label for="ssh_pw">{{ form.debug.label_tag }}</label>{{ form.debug }}</div></td></tr>
-                        <tr><td colspan="2"><button type="submit" class="btn btn-primary">Create Client</button></td></tr>
+                        <tr><td colspan="2"><button type="submit" class="btn btn-primary">Update Client</button></td></tr>
                     </tbody>
                 </table>
             </form>
