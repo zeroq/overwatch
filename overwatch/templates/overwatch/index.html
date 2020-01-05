@@ -18,11 +18,25 @@
 {% if messages %}{% for message in messages %}<div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>{% endfor %}{% endif %}
 <div class="panel panel-primary">
     <div class="panel-heading">
+        <h3 class="panel-title">Overview</h3>
+    </div>
+    <div class="panel-body">
+        <div role="tabpanel">
+        <table id="tasks_table" class="table table-condensed table-striped table-bordered" style="font-size: 0.9em;">
+            <tr><td>Total Clients</td><td>{{ num_clients }}</td></tr>
+            <tr><td>Recent Findings</td><td>{{ num_hits }}</td></tr>
+        </table>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
         <h3 class="panel-title">Recent Tasks</h3>
     </div>
     <div class="panel-body">
         <div role="tabpanel">
-        <table id="uri_table" class="table table-condensed table-striped table-bordered" style="font-size: 0.9em;">
+        <table id="tasks_table" class="table table-condensed table-striped table-bordered" style="font-size: 0.9em;">
             <thead>
                 <tr>
                     <th>Time</th>

@@ -56,7 +56,7 @@ class Client(models.Model):
     token = models.CharField(max_length=128)
     alive_time = models.DateTimeField(blank=True, null=True)
     profiles = models.ManyToManyField(Profile)
-    groups = models.ManyToManyField(Group, blank=True, null=True)
+    groups = models.ManyToManyField(Group, blank=True)
     debug = models.BooleanField(default=False)
     last_status = models.CharField(max_length=128, default='Not Checked')
 
