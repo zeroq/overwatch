@@ -108,7 +108,6 @@ def get_rkhunter(request, hostname):
     return resp
 
 def deploy(request, hostname):
-    resp = {'msg': None}
     cl = Client.objects.get(hostname=hostname)
     deploy_file = 'ow_agent.py'
     localpath = os.path.join(settings.BASE_DIR, 'ow_downloads', deploy_file)
@@ -137,8 +136,11 @@ def deploy(request, hostname):
         command = 'python3 %s' % remotepath
         ssh.exec_command(command)
         ssh.close()
-        resp['msg'] = 'transfer complete'
+        msg = 'transfer complete'
+        messages.success(request, msg)
     except Exception as e:
         print(e)
-        resp['msg'] = 'Failed to connect (%s)!' % (e)
-    return JsonResponse(resp)
+        msg = 'Failed to connect (%s)!' % (e)
+        messages.error(request, msg)
+    return HttpResponseRedirect(reverse('owclients:index'))
+
