@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block sidebar %}
+{% spaceless %}
+
+{% endspaceless%}
+{% endblock %}
+
+{% block content %}
+{% spaceless %}
+<div class="page-header">
+    <div class="media">
+        <div class="media-body">
+            <h2 class="media-heading">Yara Rules</h2>list of available rules ...
+        </div>
+    </div>
+</div>
+{% if messages %}{% for message in messages %}<div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>{% endfor %}{% endif %}
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Client List</h3>
+    </div>
+    <div class="panel-body">
+        <div role="tabpanel">
+        <table id="rule_table" class="table table-condensed table-striped table-bordered" style="font-size: 0.9em;">
+            <thead>
+                <tr>
+                    <th>Rule Name</th>
+                    <th>Last Modified</th>
+                    <th>Enabled</th>
+            </thead>
+                {% for rule in rules %}
+                    <tr>
+                        <td>{{ rule.name }}</td>
+                        <td>{{ rule.last_modified }}</td>
+                        <td>{{ rule.enabled }}</td>
+                    </tr>
+                {% endfor %}
+            <tbody>
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+{% endspaceless%}
+{% endblock%}
+
+{% block javascript %}
+
+{% endblock%}

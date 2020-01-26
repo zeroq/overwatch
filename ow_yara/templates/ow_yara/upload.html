@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block sidebar %}
+{% spaceless %}
+
+{% endspaceless%}
+{% endblock %}
+
+{% block content %}
+{% spaceless %}
+<div class="page-header">
+    <div class="media">
+        <div class="media-body">
+            <h2 class="media-heading">YARA Upload</h2>upload new yara rules to the repository ...
+        </div>
+    </div>
+</div>
+{% if messages %}{% for message in messages %}<div {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</div>{% endfor %}{% endif %}
+<div>
+    <form id="upload" action="{% url 'owyara:upload' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            {{ form }}
+        </div>
+        <div id="submitbutton">
+            <button class"btn btn-primary" type="submit">Upload File</button>
+        </div>
+    </form>
+</div>
+
+{% endspaceless%}
+{% endblock %}
