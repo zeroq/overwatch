@@ -13,3 +13,4 @@ Only basic functionality provided so far. Missing most of the graphical interfac
 - Install Python requirements from requirements.txt file
 - Download rkhunter version 1.4.6 and copy it to the ow_downloads folder for automated deployment
 - Or have rkhunter version 1.4.6 pre-installed on the client systems you want to watch
+- Add "rkhunter" as a profilename to the profiles database table
