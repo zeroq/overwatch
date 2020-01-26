@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'overwatch',
     'ow_clients',
     'ow_server',
-    'ow_api'
+    'ow_api',
+    'ow_yara'
 ]
 
 MIDDLEWARE = [
