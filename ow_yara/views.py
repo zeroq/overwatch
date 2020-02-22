@@ -13,7 +13,7 @@ import yara
 # Create your views here.
 
 def index(request):
-    rules = YaraRule.objects.all().order_by('last_modified')
+    rules = YaraRule.objects.all().order_by('-last_modified')
     paginator = Paginator(rules, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -28,11 +28,11 @@ def upload(request):
             filename = request.FILES['file'].name
             ext = filename.rsplit('.',1)[1]
             if ext in ['yar', 'yara']:
-                res = handle_uploaded_file(request, request.FILES['file'])
+                res, mess = handle_uploaded_file(request, request.FILES['file'])
                 if res == True:
                     messages.info(request, 'processing uploaded yara file.')
                 else:
-                    messages.error(request, 'failed compiling yara rules!')
+                    messages.error(request, mess)
             else:
                 messages.error(request, 'wrong file extension, not processing.')
             return HttpResponseRedirect(reverse('owyara:index'))
@@ -47,13 +47,14 @@ def handle_uploaded_file(request, f):
     try:
         rules = yara.compile(source=content)
     except Exception as e:
-        print(e)
-        return False
+        return False, 'failed compiling yara rules!'
     imp = re.compile('import\s\"(?P<import>.+?)\"', re.I|re.S)
-    rule = re.compile('(private|\s)\srule\s(?P<rulename>.+?)\s*{(?P<rulebody>.+?condition:.+?)}',re.I|re.S)
+    rule = re.compile('(private|\s)*?\s*?rule\s(?P<rulename>.+?)\s*{(?P<rulebody>.+?condition:.+?)}',re.I|re.S)
     imports = imp.findall(content)
     rules = rule.findall(content)
     lst_imports = []
+    if len(rules)==0:
+        return False, 'failed extracting rule information!'
     for i in imports:
         iobj, created = YaraImport.objects.get_or_create(**{'name': i})
         lst_imports.append(iobj)
@@ -62,4 +63,4 @@ def handle_uploaded_file(request, f):
         for i in lst_imports:
             robj.imports.add(i)
         robj.save()
-    return True
+    return True, 'ok!'
