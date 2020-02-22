@@ -29,14 +29,31 @@
                     <th>Last Modified</th>
                     <th>Enabled</th>
             </thead>
-                {% for rule in rules %}
+            <tbody>
+                {% for rule in page_obj %}
                     <tr>
                         <td>{{ rule.name }}</td>
                         <td>{{ rule.last_modified }}</td>
                         <td>{{ rule.enabled }}</td>
                     </tr>
                 {% endfor %}
-            <tbody>
+                <tr>
+                {% if page_obj.has_previous %}
+                    <td><a href="?page=1">&laquo; first</a> || <a href="?page={{ page_obj.previous_page_number }}"> previous </a></td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                {% if page_obj.has_next %}
+                    <td><a href="?page={{ page_obj.next_page_number }}"> next </a> || <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                    <td>
+                        <span class="current">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </span>
+                    </td>
+                </tr>
             </tbody>
         </table>
         </div>
