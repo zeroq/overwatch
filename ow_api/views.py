@@ -115,3 +115,7 @@ def submit_rkhunter(request, token):
             return JsonResponse({'msg': 'wrong or missing data submitted'})
     else:
         return JsonResponse({'msg': 'wrong method'})
+
+# GUI API Functions
+
+
