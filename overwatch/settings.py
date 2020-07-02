@@ -141,4 +141,4 @@ MESSAGE_TAGS = {
 
 MENU_SELECT_PARENTS = True
 
-
+FILE_TEMP_PATH = os.path.join(BASE_DIR, 'ow_temp')

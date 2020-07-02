@@ -5,6 +5,8 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
 from ow_clients.models import Client, Scan, ScanItem
+from ow_yara.models import YaraRule, YaraGroup, YaraImport
+from ow_yara.utils import compile_all_rules
 
 import os
 import paramiko
@@ -71,6 +73,21 @@ def get_rkhunter_app(request, token):
     # TODO: create job
     resp = {'msg': 'Successfully connected', 'cmd': 'install', 'data': content.decode('utf8')}
     return JsonResponse(resp)
+
+@is_allowed
+def get_yara(request, token):
+    """ get yara execution script
+    """
+    pass
+
+@is_allowed
+def get_yara_rules(request, token):
+    """ download all rules
+    """
+    res, error  = compile_all_rules()
+    if res != None:
+        temp_file = os.path.join(settings.FILE_TEMP_PATH, 'all_yara.yar')
+
 
 
 # Submission Functions
