@@ -19,22 +19,29 @@ ow_port = '<OW_PORT>'
 my_token = '<OW_TOKEN>'
 
 def init_logging():
+    """ initialize logging of agent
+    """
     logging.basicConfig(filename='ow_agent.log', filemode='w', level=logging.INFO)
+    return True
 
 
 if __name__ == '__main__':
+    """ main functionality starts here
+    """
     init_logging()
+    # construct url to get host profile
     owurl = 'http://'+ow_server+':'+str(ow_port)+'/api/1.0/'+my_token+'/get/profile/'
     logging.debug('connecting to: %s' % owurl)
     try:
         resp = get(owurl)
         logging.debug(dumps(resp.json()))
         jrsp = resp.json()
-    except Exception as e:
-        logging.error(e)
+    except Exception as error:
+        logging.error(error)
         exit(255)
     # check returned profiles
     if 'profiles' in jrsp:
+        # iterate over each returned profile
         for profilename in jrsp['profiles']:
             logging.debug("found profile: %s" % profilename)
             owurl = 'http://'+ow_server+':'+str(ow_port)+'/api/1.0/'+my_token+'/get/'+profilename+'/'
@@ -43,9 +50,10 @@ if __name__ == '__main__':
             try:
                 resp = get(owurl)
                 jrsp = resp.json()
-            except Exception as e:
-                logging.error(e)
+            except Exception as error:
+                logging.error(error)
                 continue
+            # check if it is a command profile
             if 'cmd' in jrsp and 'data' in jrsp:
                 if jrsp['cmd'] == 'Dummy':
                     logging.info('running dummy script ...')
@@ -87,6 +95,12 @@ if __name__ == '__main__':
                     except Exception as e:
                         logging.error(e)
                         pass
+                elif jrsp['cmd'] == 'install':
+                    # install provided script (e.g. rkhuner)
+                    # TODO: implement this / profile still missing
+                    outs = ''
+                    errs = 'Command not implemented: %s' % jrsp['cmd']
+                    tid = 0
                 else:
                     outs = ''
                     errs = 'Unknown cmd: %s' % jrsp['cmd']

@@ -45,6 +45,7 @@ def handle_uploaded_file(request, f):
     """
     content = f.read().decode('utf-8')
     try:
+        # try to compile rule to determine wrong rules
         rules = yara.compile(source=content)
     except Exception as e:
         return False, 'failed compiling yara rules!'
